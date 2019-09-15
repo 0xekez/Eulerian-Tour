@@ -1,0 +1,5 @@
+Eulerian Tour Finder
+--------------------
+
+A little program to find Eulerian Tour's in a graph. See main.cpp for
+an example of how its used.

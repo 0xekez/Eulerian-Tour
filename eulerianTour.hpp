@@ -18,7 +18,7 @@ static void joinPaths(std::list<Edge>& start, const std::list<Edge>& add)
 
     auto joinPos = start.begin();
 
-    while ( (joinPos++)->second != add.front().first )
+    while ( joinPos++->second != add.front().first )
         assert(joinPos != start.end() && "joinPaths given invalid paths.");
 
     start.insert(joinPos, add.begin(), add.end());
