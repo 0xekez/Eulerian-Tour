@@ -25,8 +25,55 @@ static void joinPaths(std::list<Edge>& start, const std::list<Edge>& add)
 }
 
 template <size_t SIZE>
+static bool validateTour(UndirectedGraph<SIZE>& G, const std::list<Edge>& tour)
+{
+    bool valid = true;
+
+    // Path must start and end at the same node.
+    valid &= tour.front().first == tour.back().second;
+    if ( ! valid )
+    {
+        printf("Tour must terminate at the start to be valid.\n");
+        return valid;
+    }
+
+    // Validate that the tour doesn't have any duplicates.
+    valid &= std::unordered_set<Edge>(tour.begin(), tour.end()).size() == tour.size();
+    if ( ! valid )
+    {
+        printf("A valid tour can't contain any duplicate edges.\n");
+        return valid;
+    }
+
+    // Validate that the path contains every edge.
+    std::unordered_set<Edge> edges;
+    for ( unsigned start = 0; start < SIZE; ++start )
+    {
+        auto& startNode = G.getNode(start);
+        for ( unsigned end = 0; end < SIZE; ++end )
+        {
+            if ( end == start ) continue;
+
+            if ( startNode.at(end) )
+            {
+                edges.insert({start, end});
+            }
+        }
+    }
+
+    valid &= tour.size() == edges.size();
+    if ( ! valid )
+    {
+        printf("A valid tour must visit every edge.\n");
+        return valid;
+    }
+
+    return valid;
+}
+
+template <size_t SIZE>
 std::list<Edge>
-eulerianTour(UndirectedGraph<SIZE> G, unsigned start)
+eulerianTour(UndirectedGraph<SIZE>& G, unsigned start)
 {
     std::unordered_set<Edge> visitedEdges;
     std::unordered_set<Edge> toVisit;
@@ -70,8 +117,7 @@ eulerianTour(UndirectedGraph<SIZE> G, unsigned start)
         current = toVisit.begin()->first;
     }
 
-    assert(tour.front().first == tour.back().second && 
-        "Tour must terminate at the start to be valid.");
+    validateTour(G, tour);
 
     return tour;
 }
@@ -129,7 +175,6 @@ findPath(UndirectedGraph<SIZE> G, unsigned start,
             "Path must terminate at the start to be valid.");
 
         Edge next = toVisit.top();
-        // printf("{ %u, %u }\n", next.first, next.second);
         path.push_back(next);
 
         toVisit.pop();

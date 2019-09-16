@@ -16,7 +16,7 @@ private:
     std::array<Node, SIZE> _nodes;
 
 public:
-    UndirectedGraph() = default;
+    UndirectedGraph(): _nodes() {}
     UndirectedGraph(std::vector<Edge> connections);
 
     void connect(unsigned node1, unsigned node2) override;
