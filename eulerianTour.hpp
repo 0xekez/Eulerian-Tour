@@ -75,8 +75,11 @@ template <size_t SIZE>
 std::list<Edge>
 eulerianTour(UndirectedGraph<SIZE>& G, unsigned start)
 {
+    // Edges that we've visited.
     std::unordered_set<Edge> visitedEdges;
+    // Edges that we've seen but not visited.
     std::unordered_set<Edge> toVisit;
+    // The path we've found.
     std::list<Edge> tour;
 
     unsigned current = start;
@@ -144,7 +147,7 @@ static std::list<Edge> trimPath(std::list<Edge> in)
 
 template <size_t SIZE>
 static std::pair<std::stack<Edge>, std::list<Edge>>
-findPath(UndirectedGraph<SIZE> G, unsigned start, 
+findPath(UndirectedGraph<SIZE>& G, unsigned start, 
     const std::unordered_set<Edge>& globalVisits)
 {
     typedef std::array<bool, SIZE> Node;

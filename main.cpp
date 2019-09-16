@@ -30,7 +30,8 @@ static void basic();
 int main()
 {
     srand(time(0));
-    DO_256(timeTour, 100)
+    DO_32(timeTour, 100)
+    // timeTour<9000>();
 }
 
 static void octahedron()
