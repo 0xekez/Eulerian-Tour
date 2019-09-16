@@ -10,7 +10,6 @@
 #include "Benchmark.hpp"
 
 #include <list>
-#include <chrono>
 #include <time.h>
 
 #define STEP 10
@@ -27,18 +26,6 @@
 // Usage examples.
 static void octahedron();
 static void basic();
-
-template <size_t SIZE>
-static void timeTour()
-{
-    auto G = generateGraph<SIZE>();
-
-    auto start = std::chrono::steady_clock::now();
-    eulerianTour(G, 0);
-    auto end = std::chrono::steady_clock::now();
-
-    printf("%lu\t%lld\n", SIZE, std::chrono::duration_cast<std::chrono::microseconds>(end - start).count());
-}
 
 int main()
 {
